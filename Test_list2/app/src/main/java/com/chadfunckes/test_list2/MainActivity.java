@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,9 +16,9 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chadfunckes.test_list2.Adapters.MainExpandableListAdapter;
 import com.chadfunckes.test_list2.Containers.group;
 import com.chadfunckes.test_list2.Containers.listItem;
 
@@ -38,11 +37,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //database.destroyDB();
         mContext = this;
         setContentView(R.layout.activity_main);
         // get access to database
         database = new DBhandler(this);
+        //database.destroyDB();
         // preparing list data
         fillList();
         // get the listview

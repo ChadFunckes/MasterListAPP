@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.chadfunckes.test_list2.Containers.alarms;
 import com.chadfunckes.test_list2.Containers.group;
 import com.chadfunckes.test_list2.Containers.listItem;
 
@@ -124,13 +125,55 @@ public class DBhandler extends SQLiteOpenHelper {
                 "(GID INTEGER NOT NULL, " +
                 "IID INTEGER, " +
                 "YEAR INTEGER, " +
-                "MOTH INTEGER, " +
+                "MONTH INTEGER, " +
                 "DAY INTEGER, " +
                 "HOUR INTEGER, " +
                 "MINUTE INTEGER);";
 
         db.execSQL(CMD);
     }
+    public void addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
+        ContentValues cv = new ContentValues();
+        cv.put("GID", GID);
+        if (IID != -1) cv.put("IID", IID);
+        cv.put("YEAR", alYear);
+        cv.put("MONTH", alMonth);
+        cv.put("DAY", alDay);
+        cv.put("HOUR", alHour);
+        cv.put("MINUTE", alMinute);
+        db.insert(ALARM_TABLE, null, cv);
+    }
+
+
+    // list paramaters are ID - for the ID to search and and from - for the column to search in
+    // 0 for group, 1 for item
+    public List<alarms> getAlarms(final int ID, final int from){
+        List<alarms> alarmList = new ArrayList<>();
+        Cursor c;
+        if (from == 0) { // IF 0 CAME FROM GROUP IF 1 CAME FROM ITEM
+            c = db.rawQuery("SELECT * FROM " + ALARM_TABLE + " WHERE GID=" + ID + ";", null);
+            if (c == null) {Log.d(TAG, "list returned empty");   return alarmList;}
+        }   else {
+            c = db.rawQuery("SELECT * FROM " + ALARM_TABLE + " WHERE IID=" + ID + ";", null);
+            if (c == null) return alarmList;
+        }
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                alarms a = new alarms();
+                a.GID = c.getInt(0);
+                a.IID = c.getInt(1);
+                a.year = c.getInt(2);
+                a.month = c.getInt(3);
+                a.day = c.getInt(4);
+                a.hour = c.getInt(5);
+                a.minute = c.getInt(6);
+                alarmList.add(a);
+                c.moveToNext();
+            }
+        Log.d(TAG, alarmList.toString());
+        return alarmList;
+    }
+
     private void createLocations(){
         String CMD = "CREATE TABLE " + LOC_TABLE +
                 " (GID INTEGER NOT NULL, " +
@@ -142,7 +185,6 @@ public class DBhandler extends SQLiteOpenHelper {
 
         db.execSQL(CMD);
     }
-
 
     // get a list of group object from the database for display headings
     public List<group> getGroups(){

@@ -15,7 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Alarm_Maps"></activity>
+        <activity
+            android:name=".Alarm_Activity"
+            android:label="Alarms">
+        </activity>
     </application>
 
 </manifest>

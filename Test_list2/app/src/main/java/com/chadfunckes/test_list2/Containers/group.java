@@ -10,10 +10,7 @@ public class group {
     public int _id;
     public String name;
 
-
     // default constructor does not include id and name on purpose
     public group(){
-
     }
-
 }

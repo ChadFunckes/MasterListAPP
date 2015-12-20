@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2;
+package com.chadfunckes.test_list2.Adapters;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -18,8 +19,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chadfunckes.test_list2.Alarm_Activity;
 import com.chadfunckes.test_list2.Containers.group;
 import com.chadfunckes.test_list2.Containers.listItem;
+import com.chadfunckes.test_list2.MainActivity;
+import com.chadfunckes.test_list2.R;
 
 public class MainExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -163,6 +167,10 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "alarm button for group " + thisGroup.name);
+                Intent intent = new Intent(_context, Alarm_Activity.class);
+                intent.putExtra("GID", thisGroup._id);
+                intent.putExtra("CALLED_ON", "GROUP");
+                _context.startActivity(intent);
             }
         });
         ImageView map = (ImageView) convertView.findViewById(R.id.map);
