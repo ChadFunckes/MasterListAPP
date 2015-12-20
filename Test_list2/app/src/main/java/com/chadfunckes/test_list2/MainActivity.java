@@ -55,7 +55,6 @@ public class MainActivity extends Activity {
                 listItem thisItem = (listItem)listAdapter.getChild(groupPosition, childPosition); // get the child item
                 Log.d(TAG, "child item modified was id: " + thisItem._id + " named " + thisItem.name);
                 boolean finished = database.itemToggleFinished(thisItem);
-                TextView itemText = (TextView) v.findViewById(R.id.item_text);
                 Log.d(TAG, "finished thanged to " + finished);
                 redrawList();
                 return false;
@@ -110,7 +109,6 @@ public class MainActivity extends Activity {
     }
 
     public static void redrawList(){
-        int calledFrom = lastExpandedPosition;
         fillList();
         listAdapter = new MainExpandableListAdapter(mContext, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
@@ -141,7 +139,7 @@ public class MainActivity extends Activity {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (input == null || input.getText().toString().equals("")) {
+                                if (input.getText().toString().equals("")) {
                                     Toast.makeText(MainActivity.this, "You must enter a name", Toast.LENGTH_SHORT).show();
                                     dialog.cancel();
                                 } else {

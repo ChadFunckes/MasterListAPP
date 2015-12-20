@@ -220,8 +220,11 @@ public class DBhandler extends SQLiteOpenHelper {
 
         db.insert(ITEMS_TABLE, null, cv);
     }
-    public boolean removeItem(final int itemID){
-        return db.delete(ITEMS_TABLE, "_ID="+itemID, null) > 0;
+    public void removeItem(final int itemID){
+        db.delete(ITEMS_TABLE, "_ID="+itemID, null); // delete the item from items
+        db.delete(ALARM_TABLE, "IID="+itemID, null); // delete any id that matches the items
+        db.delete(LOC_TABLE, "IID="+itemID, null); // delete and location that matches the item
+        // @TODO remove any item specific alarms and geofences
     }
     public boolean itemToggleFinished(final listItem thisItem){ // will return true if the item was given the finished value, false if it was changed to unfinished
         String CMD = "SELECT * FROM " + ITEMS_TABLE + " WHERE _ID = " + thisItem._id;
