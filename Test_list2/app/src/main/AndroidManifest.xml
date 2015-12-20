@@ -19,6 +19,9 @@
             android:name=".Alarm_Activity"
             android:label="Alarms">
         </activity>
+
+        <receiver android:name=".AlarmReciever" android:process=":remote" />
+
     </application>
 
 </manifest>

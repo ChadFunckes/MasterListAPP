@@ -36,6 +36,13 @@ public class AlarmListAdapter implements ListAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.alarmList);
         textView.setText(thisAlarm.month + "/" + thisAlarm.day + "/" + thisAlarm.year + " " + thisAlarm.hour + ":" + thisAlarm.minute);
 
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "alarm with id " + thisAlarm.AID + " clicked");
+            }
+        });
+
         return convertView;
     }
 

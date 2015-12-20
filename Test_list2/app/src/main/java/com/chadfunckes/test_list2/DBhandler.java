@@ -128,11 +128,13 @@ public class DBhandler extends SQLiteOpenHelper {
                 "MONTH INTEGER, " +
                 "DAY INTEGER, " +
                 "HOUR INTEGER, " +
-                "MINUTE INTEGER);";
+                "MINUTE INTEGER, " +
+                "AID INTEGER PRIMARY KEY AUTOINCREMENT);";
 
         db.execSQL(CMD);
     }
-    public void addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
+    public int addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
+        long AID;
         ContentValues cv = new ContentValues();
         cv.put("GID", GID);
         if (IID != -1) cv.put("IID", IID);
@@ -141,7 +143,9 @@ public class DBhandler extends SQLiteOpenHelper {
         cv.put("DAY", alDay);
         cv.put("HOUR", alHour);
         cv.put("MINUTE", alMinute);
-        db.insert(ALARM_TABLE, null, cv);
+        AID = db.insert(ALARM_TABLE, null, cv);
+        Log.d(TAG, "ID inserted was: " + AID);
+        return (int) AID;
     }
 
 
@@ -167,6 +171,7 @@ public class DBhandler extends SQLiteOpenHelper {
                 a.day = c.getInt(4);
                 a.hour = c.getInt(5);
                 a.minute = c.getInt(6);
+                a.AID = c.getInt(7);
                 alarmList.add(a);
                 c.moveToNext();
             }
