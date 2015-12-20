@@ -9,15 +9,11 @@ are needed.
 public class group {
     public int _id;
     public String name;
-    public double GPS_LAT;
-    public double GPS_LNG;
-    public String alarm;
+
 
     // default constructor does not include id and name on purpose
     public group(){
-        GPS_LAT = 0;
-        GPS_LNG = 0;
-        alarm = "";
+
     }
 
 }

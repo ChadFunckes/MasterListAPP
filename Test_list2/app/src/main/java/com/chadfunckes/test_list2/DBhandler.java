@@ -23,6 +23,8 @@ public class DBhandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "master";
     private static final String GROUP_TABLE = "GROUPS";
     private static final String ITEMS_TABLE = "ITEMS";
+    private static final String ALARM_TABLE = "ALARMS";
+    private static final String LOC_TABLE = "LOCATIONS";
 
     public DBhandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +36,8 @@ public class DBhandler extends SQLiteOpenHelper {
         this.db = db;
         createGroups();
         createItems();
+        createAlarms();
+        createLocations();
         createSampleGroups();
         createSampleItems();
     }
@@ -44,10 +48,7 @@ public class DBhandler extends SQLiteOpenHelper {
     private void createGroups(){
         String CMD = "CREATE TABLE " + GROUP_TABLE +
                 " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "NAME TEXT NOT NULL, " +
-                "GPS_LAT DOUBLE, " +
-                "GPS_LNG DOUBLE, " +
-                "ALARM TEXT);";
+                "NAME TEXT NOT NULL);";
         db.execSQL(CMD);
     }
     private void createSampleGroups(){
@@ -67,10 +68,7 @@ public class DBhandler extends SQLiteOpenHelper {
                 "FINISHED INTEGER NOT NULL, " +
                 "HAS_EXTRA INTEGER NOT NULL, " +
                 "NOTES TEXT, " +
-                "IMAGE TEXT, " +
-                "GPS_LAT DOUBLE, "+
-                "GPS_LNG DOUBLE, " +
-                "ALARM TEXT);";
+                "IMAGE TEXT);";
         db.execSQL(CMD);
     }
     private void createSampleItems(){
@@ -121,6 +119,31 @@ public class DBhandler extends SQLiteOpenHelper {
         cv.put("HAS_EXTRA", 0);
         db.insert(ITEMS_TABLE, null, cv);
     }
+    private void createAlarms(){
+        String CMD = "CREATE TABLE " + ALARM_TABLE +
+                "(GID INTEGER NOT NULL, " +
+                "IID INTEGER, " +
+                "YEAR INTEGER, " +
+                "MOTH INTEGER, " +
+                "DAY INTEGER, " +
+                "HOUR INTEGER, " +
+                "MINUTE INTEGER);";
+
+        db.execSQL(CMD);
+    }
+    private void createLocations(){
+        String CMD = "CREATE TABLE " + LOC_TABLE +
+                " (GID INTEGER NOT NULL, " +
+                "IID INTEGER, " +
+                "LAT INTEGER, " +
+                "LNG INTEGER, " +
+                "ARR INTEGER, " +
+                "DEP INTEGER);";
+
+        db.execSQL(CMD);
+    }
+
+
     // get a list of group object from the database for display headings
     public List<group> getGroups(){
         List<group> listData = new ArrayList<>();
@@ -132,9 +155,6 @@ public class DBhandler extends SQLiteOpenHelper {
             group g = new group();
             g._id = c.getInt(0);
             g.name = c.getString(1);
-            g.GPS_LAT = c.getDouble(2);
-            g.GPS_LNG = c.getDouble(3);
-            g.alarm = c.getString(4);
             listData.add(g);
             c.moveToNext();
         }
@@ -161,9 +181,6 @@ public class DBhandler extends SQLiteOpenHelper {
                 item.has_extra = c.getInt(4);
                 item.notes = c.getString(5);
                 item.image = c.getString(6);
-                item.GPS_LAT = c.getDouble(7);
-                item.GPS_LNG = c.getDouble(8);
-                item.alarm = c.getString(9);
                 il.add(item);
                 c.moveToNext();
             }
@@ -176,14 +193,17 @@ public class DBhandler extends SQLiteOpenHelper {
     public void addGroup(final group grp){
         ContentValues cv = new ContentValues();
         cv.put("NAME", grp.name);
-        cv.put("GPS_LAT", grp.GPS_LAT);
-        cv.put("GPS_LNG", grp.GPS_LNG);
-        cv.put("ALARM", grp.alarm);
         db.insert(GROUP_TABLE, null, cv);
     }
     public void removeGroup(final int grpID){
         // delete all children
         db.delete(ITEMS_TABLE, "GROUP_ID=" + grpID, null);
+        // delete all alarms with group
+        db.delete(ALARM_TABLE, "GID=" + grpID, null);
+        // @TODO delete any pending alarms...
+        // delete all location with group
+        db.delete(LOC_TABLE, "GID=" + grpID, null);
+        // @TODO delete any pending geofences....
         // delete group
         db.delete(GROUP_TABLE, "_ID=" + grpID, null);
     }
@@ -197,9 +217,6 @@ public class DBhandler extends SQLiteOpenHelper {
         cv.put("HAS_EXTRA", item.has_extra);
         cv.put("NOTES", item.notes);
         cv.put("IMAGE", item.image);
-        cv.put("GPS_LAT", item.GPS_LAT);
-        cv.put("GPS_LNG", item.GPS_LNG);
-        cv.put("ALARM", item.alarm);
 
         db.insert(ITEMS_TABLE, null, cv);
     }

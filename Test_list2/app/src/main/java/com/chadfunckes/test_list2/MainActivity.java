@@ -38,11 +38,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //database.destroyDB();
         mContext = this;
         setContentView(R.layout.activity_main);
         // get access to database
         database = new DBhandler(this);
-        //database.destroyDB();
         // preparing list data
         fillList();
         // get the listview

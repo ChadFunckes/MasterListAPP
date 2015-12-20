@@ -13,17 +13,11 @@ public class listItem {
     public int has_extra;
     public String notes;
     public String image;
-    public double GPS_LAT;
-    public double GPS_LNG;
-    public String alarm;
 
     public listItem(){ // all ID's and name are left blank on purpose, all others to prevent nulls
         finished = 0;
         has_extra = 0;
         notes = "";
         image = "";
-        GPS_LAT = 0;
-        GPS_LNG = 0;
-        alarm = "";
     }
 }
