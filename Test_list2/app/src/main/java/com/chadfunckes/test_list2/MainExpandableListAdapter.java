@@ -59,6 +59,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView.findViewById(R.id.item_text);
         txtListChild.setText(childText); // set text to the name of the object
         if (thisChild.finished == 1) txtListChild.setPaintFlags(txtListChild.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); // set strikethough if item is finished
+        else txtListChild.setPaintFlags(txtListChild.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
         // set image button onClicks for child items
         ImageView trash = (ImageView) convertView.findViewById(R.id.deleteItem);
         trash.setOnClickListener(new View.OnClickListener() {

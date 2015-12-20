@@ -57,13 +57,7 @@ public class MainActivity extends Activity {
                 boolean finished = database.itemToggleFinished(thisItem);
                 TextView itemText = (TextView) v.findViewById(R.id.item_text);
                 Log.d(TAG, "finished thanged to " + finished);
-                // change text NOW with no redraw
-                if (finished){
-                    itemText.setPaintFlags(itemText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                }
-                else{
-                    itemText.setPaintFlags(itemText.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-                }
+                redrawList();
                 return false;
             }
         });
@@ -81,17 +75,17 @@ public class MainActivity extends Activity {
                     childPosition = ExpandableListView.getPackedPositionChild(id);
                     groupPosition = ExpandableListView.getPackedPositionGroup(id);
 
-                    //do your per-item callback here
+                    //@TODO do your per-item callback here
                     return true; //true if we consumed the click, false if not
 
                 } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                     Log.d(TAG, "long group click");
                     groupPosition = ExpandableListView.getPackedPositionGroup(id);
-                    //do your per-group callback here
+                    // @TODO do your per-group callback here
                     return true; //true if we consumed the click, false if not
 
                 } else {
-                    // null item; we don't consume the click
+                    // null item, we don't consume the click
                     return false;
                 }
             }
