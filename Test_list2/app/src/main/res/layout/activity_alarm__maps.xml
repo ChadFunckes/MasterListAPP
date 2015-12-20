@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.chadfunckes.test_list2.Alarm_Maps">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Alarms"
+        android:id="@+id/AlarmsText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:id="@+id/DateButton"
+        android:layout_alignTop="@+id/TimeButton"
+        android:layout_toLeftOf="@+id/TimeButton"
+        android:layout_toStartOf="@+id/TimeButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:id="@+id/TimeButton"
+        android:layout_below="@+id/AlarmsText"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set"
+        android:id="@+id/SetButton"
+        android:layout_alignTop="@+id/TimeButton"
+        android:layout_toRightOf="@+id/TimeButton"
+        android:layout_toEndOf="@+id/TimeButton" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:paddingTop="6dp"
+        android:background="#ffffff"
+        android:layout_alignBottom="@+id/DateButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:id="@+id/listView"
+        android:layout_below="@+id/divider1"
+        android:layout_centerHorizontal="true"
+        android:clickable="true" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:paddingTop="6dp"
+        android:background="#ffffff"
+        android:layout_alignBottom="@+id/listView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Maps"
+        android:id="@+id/mapsText"
+        android:layout_below="@+id/divider2"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Address:"
+        android:id="@+id/AddressText"
+        android:layout_below="@+id/mapsText"
+        android:layout_toLeftOf="@+id/DateButton"
+        android:layout_toStartOf="@+id/DateButton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/addressEditText"
+        android:layout_below="@+id/AddressText"
+        android:layout_alignLeft="@+id/AddressText"
+        android:layout_alignStart="@+id/AddressText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Address"
+        android:id="@+id/SetAddrButton"
+        android:layout_alignBottom="@+id/addressEditText"
+        android:layout_toRightOf="@+id/addressEditText"
+        android:layout_toEndOf="@+id/addressEditText" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address Manager"
+        android:id="@+id/AMButton"
+        android:layout_below="@+id/addressEditText"
+        android:layout_alignLeft="@+id/addressEditText"
+        android:layout_alignStart="@+id/addressEditText" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Google Search"
+        android:id="@+id/GSButton"
+        android:layout_alignBottom="@+id/AMButton"
+        android:layout_alignLeft="@+id/AlarmsText"
+        android:layout_alignStart="@+id/AlarmsText" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/OKbtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/ClearBtn"
+        android:layout_below="@+id/SetAddrButton"
+        android:layout_toRightOf="@+id/GSButton"
+        android:layout_toEndOf="@+id/GSButton" />
+
+
+</RelativeLayout>

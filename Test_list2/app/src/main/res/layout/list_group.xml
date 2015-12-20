@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/parent_item_color">
+
+
+    <TextView
+        android:id="@+id/lblListHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="@dimen/group_text_size"
+        android:textColor="#f9f93d"
+        android:layout_toLeftOf="@+id/addItem"
+        android:layout_toStartOf="@+id/addItem" />
+
+    <ImageView
+    android:id="@+id/trashcan"
+    android:src="@drawable/trash_24"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/group_text_size"
+    android:layout_alignParentRight="true"/>
+
+    <ImageView
+        android:id="@+id/alarmclock"
+        android:src="@drawable/alarm_clock_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/trashcan"
+        android:paddingRight="20dip" />
+
+    <ImageView
+        android:id="@+id/map"
+        android:src="@drawable/world_map_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/alarmclock"
+        android:paddingRight="10dip" />
+
+    <ImageView
+        android:id="@+id/addItem"
+        android:src="@drawable/add_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/map"
+        android:paddingRight="10dip"/>
+
+</RelativeLayout>

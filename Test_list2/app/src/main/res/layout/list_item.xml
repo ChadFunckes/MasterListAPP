@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dip"
+    android:orientation="vertical"
+    android:background="@color/background_material_dark">
+
+
+    <TextView
+        android:id="@+id/item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:textColor="#ffffff"
+        android:textIsSelectable="false"
+        android:textSize="@dimen/list_text_size" />
+
+    <ImageView
+        android:id="@+id/deleteItem"
+        android:src="@drawable/white_trash"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_text_size"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dip"
+        />
+
+    <ImageView
+        android:id="@+id/addExtra"
+        android:src="@drawable/add_white"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_text_size"
+        android:layout_toLeftOf="@id/deleteItem"
+        android:paddingRight="20dip"/>
+
+
+</RelativeLayout>
