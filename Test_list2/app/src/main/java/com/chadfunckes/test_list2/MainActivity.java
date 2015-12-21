@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
                     childPosition = ExpandableListView.getPackedPositionChild(id);
                     groupPosition = ExpandableListView.getPackedPositionGroup(id);
 
-                    //@TODO do your per-item callback here
+                    //@TODO do your per-item callback here (edit text dialog to change name?
                     return true; //true if we consumed the click, false if not
 
                 } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {

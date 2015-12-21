@@ -98,6 +98,13 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "alarm hit on child " + childText);
+                Intent intent = new Intent(_context, Alarm_Activity.class);
+                intent.putExtra("IID", thisChild._id);
+                intent.putExtra("GID", thisChild.groupID);
+                intent.putExtra("GROUP_NAME", MainActivity.database.getGroupName(thisChild.groupID));
+                intent.putExtra("ITEM_NAME", thisChild.name);
+                intent.putExtra("CALLED_ON", "ITEM");
+                _context.startActivity(intent);
             }
         });
         ImageView map = (ImageView)convertView.findViewById(R.id.addMap);
