@@ -93,6 +93,22 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
                 Log.d(TAG, "Add extra hit on child " + childText);
             }
         });
+        ImageView alarm = (ImageView)convertView.findViewById(R.id.addAlarm);
+        alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "alarm hit on child " + childText);
+            }
+        });
+        ImageView map = (ImageView)convertView.findViewById(R.id.addMap);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "map hit on child " + childText);
+            }
+        });
+
+
 
         return convertView;
     }

@@ -32,5 +32,21 @@
         android:layout_toLeftOf="@id/deleteItem"
         android:paddingRight="20dip"/>
 
+    <ImageView
+        android:id="@+id/addAlarm"
+        android:src="@drawable/white_clock_24"
+        android:layout_width="wrap_content"
+        android:layout_height="35sp"
+        android:layout_toLeftOf="@id/addExtra"
+        android:paddingRight="10dip"/>
+
+    <ImageView
+        android:id="@+id/addMap"
+        android:src="@drawable/white_map_24"
+        android:layout_width="wrap_content"
+        android:layout_height="35sp"
+        android:layout_toLeftOf="@id/addAlarm"
+        android:paddingRight="10dp"/>
+
 
 </RelativeLayout>

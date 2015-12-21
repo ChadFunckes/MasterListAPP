@@ -83,6 +83,7 @@
         android:id="@+id/DoneButton"
         android:layout_below="@+id/divider2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="doneButton"/>
 
 </RelativeLayout>

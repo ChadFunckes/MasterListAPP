@@ -22,6 +22,7 @@ import com.chadfunckes.test_list2.Adapters.AlarmListAdapter;
 import com.chadfunckes.test_list2.Containers.alarms;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class Alarm_Activity extends Activity  {
@@ -113,6 +114,15 @@ public class Alarm_Activity extends Activity  {
             toast.show();
             return;
         };
+        // check if the alarm is in the past
+        Calendar now = Calendar.getInstance();
+        Calendar timeSet = (Calendar) now.clone();
+        timeSet.set(alYear, alMonth, alDay, alHour, alMinute, 0);
+        if (now.getTimeInMillis() > timeSet.getTimeInMillis()){
+            Toast toast = Toast.makeText(this, "This alarm is in the past", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
         // set into db // *** add alarm returns the alarm ID ***
         AID = MainActivity.database.addAlarm(GID, IID, alYear, alMonth, alDay, alHour, alMinute);
         // change list
@@ -135,6 +145,10 @@ public class Alarm_Activity extends Activity  {
                 pendingIntent); // set the alarm
     }
 
+    public void doneButton(View v){
+        finish();
+    }
+
     public void refreshList(){
         if (IID != -1)
             fillList(IID, 1);
@@ -148,6 +162,6 @@ public class Alarm_Activity extends Activity  {
     public void fillList(int ID, int from){
         // get alarm list from GID or IID
         alarmList = MainActivity.database.getAlarms(ID, from);
-        Log.d(TAG, "list is " + alarmList.toString());
+        Collections.sort(alarmList, alarms.ByDate);
     }
 }
