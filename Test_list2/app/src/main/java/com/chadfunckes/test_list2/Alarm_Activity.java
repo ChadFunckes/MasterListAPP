@@ -2,16 +2,20 @@ package com.chadfunckes.test_list2;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chadfunckes.test_list2.Adapters.AlarmListAdapter;
@@ -20,13 +24,13 @@ import com.chadfunckes.test_list2.Containers.alarms;
 import java.util.Calendar;
 import java.util.List;
 
-public class Alarm_Activity extends Activity {
+public class Alarm_Activity extends Activity  {
     private final static String TAG = "Alarm Activity";
     private String CALLED_ON;
     int GID, IID, AID;
     static int alYear, alMonth, alDay, alHour, alMinute = -1;
     static String GROUP_NAME, ITEM_NAME;
-
+    static Context mContext;
     private static ListView list; // reference for the listview
     private static ListAdapter adapter; // array adapter for the list
     private List<alarms> alarmList; // the list of alarms for this item
@@ -41,6 +45,7 @@ public class Alarm_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        mContext = this;
         // @TODO change CALLED_ON to an int type here and in the list adapter to save memory space
         CALLED_ON = getIntent().getStringExtra("CALLED_ON"); // called on GROUP or ITEM
         GID = getIntent().getIntExtra("GID", -1);
@@ -59,6 +64,36 @@ public class Alarm_Activity extends Activity {
         list = (ListView) findViewById(R.id.alarmList);
         adapter = new AlarmListAdapter(this, alarmList);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final alarms thisAlarm = alarmList.get(position);
+                Log.d(TAG, "item clciked id: " + thisAlarm.AID);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                dialog.setTitle("Alarm Delete")
+                        .setMessage("Delete Alarm?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // delete from alarm service pool
+                                AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                                Intent intent = new Intent(mContext, AlarmReceiver.class);
+                                PendingIntent updatePending = PendingIntent.getBroadcast(mContext, thisAlarm.AID, intent, 0);
+                                alarmManager.cancel(updatePending);
+                                // delete from database
+                                MainActivity.database.removeAlarm(thisAlarm.AID);
+                                // @TODO redraw list
+                                refreshList();
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).show();
+
+            }
+        });
     }
 
     public void setDate(View v){
@@ -86,14 +121,12 @@ public class Alarm_Activity extends Activity {
         Calendar cal = (Calendar) Calendar.getInstance().clone();
         cal.set(alYear, alMonth, alDay, alHour, alMinute, 0);
 
-        Intent intent = new Intent(getBaseContext(), AlarmReciever.class);
+        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
         // extra info for intent
         intent.putExtra("AID", AID);
         intent.putExtra("CALLED_ON", CALLED_ON);
         intent.putExtra("GROUP_NAME", GROUP_NAME);
         intent.putExtra("ITEM_NAME", ITEM_NAME);
-        intent.putExtra("TIME", cal.getTimeInMillis()); // time obj
-        intent.putExtra("TIMEZONE", cal.getTimeZone().getID()); // sting time zone obj
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getBaseContext(), AID, intent, 0);
         // add into alarm manager
@@ -102,7 +135,7 @@ public class Alarm_Activity extends Activity {
                 pendingIntent); // set the alarm
     }
 
-    private void refreshList(){
+    public void refreshList(){
         if (IID != -1)
             fillList(IID, 1);
         else

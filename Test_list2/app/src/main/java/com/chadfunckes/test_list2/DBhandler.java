@@ -147,8 +147,9 @@ public class DBhandler extends SQLiteOpenHelper {
         Log.d(TAG, "ID inserted was: " + AID);
         return (int) AID;
     }
-
-
+    public void removeAlarm(final int AID){
+        db.delete(ALARM_TABLE, "AID=" + AID, null);
+    }
     // list paramaters are ID - for the ID to search and and from - for the column to search in
     // 0 for group, 1 for item
     public List<alarms> getAlarms(final int ID, final int from){

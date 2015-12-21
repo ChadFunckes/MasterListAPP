@@ -8,14 +8,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
+import android.widget.ListView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-public class AlarmReciever extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
 
     public static int NOTIFICATION_ID;
+    public static DBhandler database;
 
     @Override
     public void onReceive(Context k1, Intent k2) {
@@ -32,16 +35,9 @@ public class AlarmReciever extends BroadcastReceiver {
         // this sets up the pending intent for the nitifcation manager and updates the notification with the same ID
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // get timeStamp from intent
-        Calendar myCal = new GregorianCalendar(TimeZone.getTimeZone(k2.getStringExtra("TIMEZONE")));
-        myCal.setTimeInMillis(k2.getLongExtra("TIME", 0));
-        String min;
-        if (myCal.MINUTE < 10) min = "0" + String.valueOf(myCal.MINUTE);
-        else min = String.valueOf(myCal.MINUTE);
-        final String timeStamp = myCal.MONTH + "/" + myCal.DAY_OF_MONTH + "/" + myCal.YEAR + " at " + myCal.HOUR_OF_DAY + ":" + min;
         // Ibox Style multi Line notification
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.addLine("Reminder Due: " + timeStamp);
+        inboxStyle.addLine("Reminder Due!");
         if (k2.getStringExtra("CALLED_ON").equals("GROUP")){
             inboxStyle.addLine("On Group: " + k2.getStringExtra("GROUP_NAME"));
         }
@@ -50,7 +46,7 @@ public class AlarmReciever extends BroadcastReceiver {
                     .addLine("On Item: " + k2.getStringExtra("ITEM_NAME"));
         }
         // Basic message text
-        messageText = "Reminder due: " + timeStamp;
+        messageText = "Reminder due!";
         // this builds the notification, sets the message, the icon...etc...
         // see developer/reference/android/app/notification.builder.html for all options here
         Notification notification = new NotificationCompat.Builder(k1)
@@ -69,6 +65,10 @@ public class AlarmReciever extends BroadcastReceiver {
 
         //send the actual notification
         notificationManager.notify(NOTIFICATION_ID, notification);
+        // *** once notification is given alarm is deleted *** @TODO possibly add dismiss and snooze buttons to alarm??
+        database = new DBhandler(k1);
+        database.removeAlarm(NOTIFICATION_ID);
+
     }
 
 }

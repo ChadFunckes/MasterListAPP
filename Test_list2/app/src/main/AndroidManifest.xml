@@ -20,7 +20,7 @@
             android:label="Alarms">
         </activity>
 
-        <receiver android:name=".AlarmReciever" android:process=":remote" />
+        <receiver android:name=".AlarmReceiver" android:process=":remote" />
 
     </application>
 

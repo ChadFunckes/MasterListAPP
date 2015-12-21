@@ -1,6 +1,11 @@
 package com.chadfunckes.test_list2.Adapters;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.chadfunckes.test_list2.AlarmReceiver;
+import com.chadfunckes.test_list2.Alarm_Activity;
 import com.chadfunckes.test_list2.Containers.alarms;
+import com.chadfunckes.test_list2.MainActivity;
 import com.chadfunckes.test_list2.R;
 
 import java.util.List;
@@ -25,23 +33,19 @@ public class AlarmListAdapter implements ListAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         final alarms thisAlarm = (alarms) getItem(position);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) _context
+            LayoutInflater inflater = (LayoutInflater) _context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.alarm_list, null);
+            convertView = inflater.inflate(R.layout.alarm_list, null);
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.alarmList);
-        textView.setText(thisAlarm.month + "/" + thisAlarm.day + "/" + thisAlarm.year + " " + thisAlarm.hour + ":" + thisAlarm.minute);
-
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "alarm with id " + thisAlarm.AID + " clicked");
-            }
-        });
+        String min;
+        if (thisAlarm.minute < 10) min = "0" + thisAlarm.minute;
+        else min = String.valueOf(thisAlarm.minute);
+        textView.setText(thisAlarm.month + "/" + thisAlarm.day + "/" + thisAlarm.year + " " + thisAlarm.hour + ":" + min);
 
         return convertView;
     }
@@ -73,7 +77,6 @@ public class AlarmListAdapter implements ListAdapter {
 
     @Override
     public Object getItem(int position) {
-
         return theList.get(position);
     }
 
@@ -102,3 +105,4 @@ public class AlarmListAdapter implements ListAdapter {
         return false;
     }
 }
+
