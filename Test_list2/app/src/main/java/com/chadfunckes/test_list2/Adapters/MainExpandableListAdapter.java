@@ -168,6 +168,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 Log.d(TAG, "alarm button for group " + thisGroup.name);
                 Intent intent = new Intent(_context, Alarm_Activity.class);
+                intent.putExtra("IID", -1);
                 intent.putExtra("GID", thisGroup._id);
                 intent.putExtra("GROUP_NAME", thisGroup.name);
                 intent.putExtra("CALLED_ON", "GROUP");

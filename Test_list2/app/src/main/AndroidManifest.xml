@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chadfunckes.test_list2">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -20,8 +21,17 @@
             android:label="Alarms">
         </activity>
 
+<!-- recievers section alarmReciever picks up set timed alarms
+     BootComplete picks up boot events to re-establish alarms
+     -->
         <receiver android:name=".AlarmReceiver" android:process=":remote" />
 
+        <receiver android:name=".BootCompletedReceiver" >
+            <intent-filter>
+                <category android:name="android.intent.category.INFO"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
     </application>
-
 </manifest>

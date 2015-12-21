@@ -180,6 +180,28 @@ public class DBhandler extends SQLiteOpenHelper {
         return alarmList;
     }
 
+    public List<alarms> getALLAlarms(){
+        List<alarms> alarmList = new ArrayList<>();
+        Cursor c;
+        c = db.rawQuery("SELECT * FROM " + ALARM_TABLE + ";", null);
+        if (c == null) return alarmList;
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            alarms a = new alarms();
+            a.GID = c.getInt(0);
+            a.IID = c.getInt(1);
+            a.year = c.getInt(2);
+            a.month = c.getInt(3);
+            a.day = c.getInt(4);
+            a.hour = c.getInt(5);
+            a.minute = c.getInt(6);
+            a.AID = c.getInt(7);
+            alarmList.add(a);
+            c.moveToNext();
+        }
+        return alarmList;
+    }
+
     private void createLocations(){
         String CMD = "CREATE TABLE " + LOC_TABLE +
                 " (GID INTEGER NOT NULL, " +
@@ -208,6 +230,11 @@ public class DBhandler extends SQLiteOpenHelper {
         }
 
         return listData;
+    }
+    public String getGroupName(final int GID){
+        Cursor c = db.rawQuery("SELECT * FROM " + GROUP_TABLE + " WHERE _ID=" + GID, null);
+        c.moveToFirst();
+        return c.getString(1);
     }
     // get a hash with group item keys that match the list taken as the parameter
     public HashMap<group, List<listItem>> getItems(List<group> g){
@@ -255,7 +282,12 @@ public class DBhandler extends SQLiteOpenHelper {
         // delete group
         db.delete(GROUP_TABLE, "_ID=" + grpID, null);
     }
-
+    public String getItemName(final int IID){
+        Cursor c = db.rawQuery("SELECT * FROM "+ ITEMS_TABLE + " WHERE _ID=" + IID, null);
+        if (c == null) return "Shits Broke";
+        c.moveToFirst();
+        return c.getString(2);
+    }
     public void addItem(final int groupID, final listItem item){
         ContentValues cv = new ContentValues();
 
