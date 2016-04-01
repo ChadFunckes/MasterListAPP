@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.chadfunckes.test_list2.Alarm_Activity;
 import com.chadfunckes.test_list2.Containers.group;
 import com.chadfunckes.test_list2.Containers.listItem;
 import com.chadfunckes.test_list2.MainActivity;
+import com.chadfunckes.test_list2.MapsActivity;
 import com.chadfunckes.test_list2.R;
 
 public class MainExpandableListAdapter extends BaseExpandableListAdapter {
@@ -86,13 +88,6 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
                         }).show();
             }
         });
-        ImageView extraInfo = (ImageView)convertView.findViewById(R.id.addExtra);
-        extraInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Add extra hit on child " + childText);
-            }
-        });
         ImageView alarm = (ImageView)convertView.findViewById(R.id.addAlarm);
         alarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,11 +107,15 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "map hit on child " + childText);
+                Intent intent = new Intent(_context, MapsActivity.class);
+                intent.putExtra("CALLED_ON", "ITEM");
+                intent.putExtra("GID", thisChild.groupID);
+                intent.putExtra("GROUP_NAME", MainActivity.database.getGroupName(thisChild.groupID));
+                intent.putExtra("IID", thisChild._id);
+                intent.putExtra("ITEM_NAME", thisChild.name);
+                _context.startActivity(intent);
             }
         });
-
-
-
         return convertView;
     }
 
@@ -203,6 +202,11 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Map clicked for group " + thisGroup.name);
+                Intent intent = new Intent(_context, MapsActivity.class);
+                intent.putExtra("CALLED_ON", "GROUP");
+                intent.putExtra("GID", thisGroup._id);
+                intent.putExtra("GROUP_NAME", thisGroup.name);
+                _context.startActivity(intent);
             }
         });
         ImageView addItem = (ImageView) convertView.findViewById(R.id.addItem);

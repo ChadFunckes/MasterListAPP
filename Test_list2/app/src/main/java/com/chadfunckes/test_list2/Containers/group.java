@@ -1,10 +1,6 @@
 package com.chadfunckes.test_list2.Containers;
 
-/*
-This class is a group container, to hold info about the group lists
-the format is like a basic structure, no specific getters and setters
-are needed.
- */
+import java.util.Comparator;
 
 public class group {
     public int _id;
@@ -13,4 +9,15 @@ public class group {
     // default constructor does not include id and name on purpose
     public group(){
     }
+
+    public static Comparator<group> ByName = new Comparator<group>() {
+        @Override
+        public int compare(group lhs, group rhs) {
+
+            String left = lhs.name.toUpperCase();
+            String right = rhs.name.toUpperCase();
+
+            return left.compareTo(right);
+        }
+    };
 }

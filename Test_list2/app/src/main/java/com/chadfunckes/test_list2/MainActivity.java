@@ -1,5 +1,6 @@
 package com.chadfunckes.test_list2;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import android.app.Activity;
@@ -25,7 +26,7 @@ import com.chadfunckes.test_list2.Containers.listItem;
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity"; // debug log tag
     private static int lastExpandedPosition = -1; // used for collapsing unused groups
-    // expandable list and dadapters
+    // expandable list and adapters
     static MainExpandableListAdapter listAdapter;
     static ExpandableListView expListView;
     // List Containers
@@ -163,8 +164,10 @@ public class MainActivity extends Activity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
         listDataHeader = database.getGroups();
+        Collections.sort(listDataHeader, group.ByName);
         if (listDataHeader.size() == 0) return; // if no groups then no items
         listDataChild = database.getItems(listDataHeader);
+
     }
 
 }

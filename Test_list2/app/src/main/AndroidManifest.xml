@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chadfunckes.test_list2">
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -9,6 +11,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,20 +26,27 @@
         </activity>
         <activity
             android:name=".Alarm_Activity"
-            android:label="Alarms">
-        </activity>
+            android:label="Alarms"/>
 
-<!-- recievers section alarmReciever picks up set timed alarms
+        <activity
+            android:name=".MapsActivity"
+            android:label="Geo Location"/>
+
+        <!--
+     recievers section alarmReciever picks up set timed alarms
      BootComplete picks up boot events to re-establish alarms
-     -->
-        <receiver android:name=".AlarmReceiver" android:process=":remote" />
-
-        <receiver android:name=".BootCompletedReceiver" >
+        -->
+        <receiver
+            android:name=".AlarmReceiver"
+            android:process=":remote" />
+        <receiver android:name=".BootCompletedReceiver">
             <intent-filter>
-                <category android:name="android.intent.category.INFO"/>
+                <category android:name="android.intent.category.INFO" />
+
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>

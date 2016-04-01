@@ -13,6 +13,7 @@ import com.chadfunckes.test_list2.Containers.group;
 import com.chadfunckes.test_list2.Containers.listItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -133,6 +134,18 @@ public class DBhandler extends SQLiteOpenHelper {
 
         db.execSQL(CMD);
     }
+    private void createLocations(){
+        String CMD = "CREATE TABLE " + LOC_TABLE +
+                " (GID INTEGER NOT NULL, " +
+                "IID INTEGER, " +
+                "LAT INTEGER, " +
+                "LNG INTEGER, " +
+                "ARR INTEGER, " +
+                "DEP INTEGER);";
+
+        db.execSQL(CMD);
+    }
+
     public int addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
         long AID;
         ContentValues cv = new ContentValues();
@@ -150,9 +163,9 @@ public class DBhandler extends SQLiteOpenHelper {
     public void removeAlarm(final int AID){
         db.delete(ALARM_TABLE, "AID=" + AID, null);
     }
-    // list paramaters are ID - for the ID to search and and from - for the column to search in
-    // 0 for group, 1 for item
     public List<alarms> getAlarms(final int ID, final int from){
+        // list paramaters are ID - for the ID to search and and from - for the column to search in
+        // 0 for group, 1 for item
         List<alarms> alarmList = new ArrayList<>();
         Cursor c;
         if (from == 0) { // IF 0 CAME FROM GROUP IF 1 CAME FROM ITEM
@@ -179,7 +192,6 @@ public class DBhandler extends SQLiteOpenHelper {
         Log.d(TAG, alarmList.toString());
         return alarmList;
     }
-
     public List<alarms> getALLAlarms(){
         List<alarms> alarmList = new ArrayList<>();
         Cursor c;
@@ -200,18 +212,6 @@ public class DBhandler extends SQLiteOpenHelper {
             c.moveToNext();
         }
         return alarmList;
-    }
-
-    private void createLocations(){
-        String CMD = "CREATE TABLE " + LOC_TABLE +
-                " (GID INTEGER NOT NULL, " +
-                "IID INTEGER, " +
-                "LAT INTEGER, " +
-                "LNG INTEGER, " +
-                "ARR INTEGER, " +
-                "DEP INTEGER);";
-
-        db.execSQL(CMD);
     }
 
     // get a list of group object from the database for display headings
@@ -236,6 +236,24 @@ public class DBhandler extends SQLiteOpenHelper {
         c.moveToFirst();
         return c.getString(1);
     }
+    public void addGroup(final group grp){
+        ContentValues cv = new ContentValues();
+        cv.put("NAME", grp.name);
+        db.insert(GROUP_TABLE, null, cv);
+    }
+    public void removeGroup(final int grpID){
+        // delete all children
+        db.delete(ITEMS_TABLE, "GROUP_ID=" + grpID, null);
+        // delete all alarms with group
+        db.delete(ALARM_TABLE, "GID=" + grpID, null);
+        // @TODO delete any pending alarms...
+        // delete all location with group
+        db.delete(LOC_TABLE, "GID=" + grpID, null);
+        // @TODO delete any pending geofences....
+        // delete group
+        db.delete(GROUP_TABLE, "_ID=" + grpID, null);
+    }
+
     // get a hash with group item keys that match the list taken as the parameter
     public HashMap<group, List<listItem>> getItems(List<group> g){
         HashMap<group, List<listItem>> childMap = new HashMap<group, List<listItem>>();
@@ -259,28 +277,11 @@ public class DBhandler extends SQLiteOpenHelper {
                 il.add(item);
                 c.moveToNext();
             }
+            Collections.sort(il, listItem.ByName);
             childMap.put(g.get(i), il);
         }
 
         return childMap;
-    }
-
-    public void addGroup(final group grp){
-        ContentValues cv = new ContentValues();
-        cv.put("NAME", grp.name);
-        db.insert(GROUP_TABLE, null, cv);
-    }
-    public void removeGroup(final int grpID){
-        // delete all children
-        db.delete(ITEMS_TABLE, "GROUP_ID=" + grpID, null);
-        // delete all alarms with group
-        db.delete(ALARM_TABLE, "GID=" + grpID, null);
-        // @TODO delete any pending alarms...
-        // delete all location with group
-        db.delete(LOC_TABLE, "GID=" + grpID, null);
-        // @TODO delete any pending geofences....
-        // delete group
-        db.delete(GROUP_TABLE, "_ID=" + grpID, null);
     }
     public String getItemName(final int IID){
         Cursor c = db.rawQuery("SELECT * FROM "+ ITEMS_TABLE + " WHERE _ID=" + IID, null);

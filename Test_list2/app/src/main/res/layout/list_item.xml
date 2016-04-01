@@ -25,20 +25,12 @@
         />
 
     <ImageView
-        android:id="@+id/addExtra"
-        android:src="@drawable/add_white"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/list_text_size"
-        android:layout_toLeftOf="@id/deleteItem"
-        android:paddingRight="20dip"/>
-
-    <ImageView
         android:id="@+id/addAlarm"
         android:src="@drawable/white_clock_24"
         android:layout_width="wrap_content"
         android:layout_height="35sp"
-        android:layout_toLeftOf="@id/addExtra"
-        android:paddingRight="10dip"/>
+        android:layout_toLeftOf="@id/deleteItem"
+        android:paddingRight="20dip"/>
 
     <ImageView
         android:id="@+id/addMap"

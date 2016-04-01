@@ -5,6 +5,8 @@ This container is a basic structure that holds info about a specific list item
 requires no special getters or setter or constructors.  Basically a structure.
  */
 
+import java.util.Comparator;
+
 public class listItem {
     public int _id;
     public int groupID;
@@ -20,4 +22,14 @@ public class listItem {
         notes = "";
         image = "";
     }
+
+    public static Comparator<listItem> ByName = new Comparator<listItem>() {
+        @Override
+        public int compare(listItem lhs, listItem rhs) {
+            String left = lhs.name.toUpperCase();
+            String right = rhs.name.toUpperCase();
+
+            return left.compareTo(right);
+        }
+    };
 }
