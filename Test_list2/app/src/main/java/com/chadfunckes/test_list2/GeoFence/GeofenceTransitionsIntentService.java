@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2;
+package com.chadfunckes.test_list2.GeoFence;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -12,6 +12,9 @@ import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.chadfunckes.test_list2.GeoFence.GeofenceErrorMessages;
+import com.chadfunckes.test_list2.MainActivity;
+import com.chadfunckes.test_list2.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 

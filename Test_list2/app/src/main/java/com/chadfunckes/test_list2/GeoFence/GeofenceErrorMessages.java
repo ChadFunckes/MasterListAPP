@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2;
+package com.chadfunckes.test_list2.GeoFence;
 
 /**
  * Copyright 2014 Google Inc. All Rights Reserved.

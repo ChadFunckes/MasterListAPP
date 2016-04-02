@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name=".GeofenceTransitionsIntentService"/>
+        <service android:name=".GeoFence.GeofenceTransitionsIntentService"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,9 +39,9 @@
      BootComplete picks up boot events to re-establish alarms
         -->
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".Recievers.AlarmReceiver"
             android:process=":remote" />
-        <receiver android:name=".BootCompletedReceiver">
+        <receiver android:name=".Recievers.BootCompletedReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.INFO" />
 

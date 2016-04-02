@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2;
+package com.chadfunckes.test_list2.Recievers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,7 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.chadfunckes.test_list2.DBhandler;
 import com.chadfunckes.test_list2.Models.alarms;
+import com.chadfunckes.test_list2.Recievers.AlarmReceiver;
 
 import java.util.Calendar;
 import java.util.List;
