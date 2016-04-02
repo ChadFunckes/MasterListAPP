@@ -5,10 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.chadfunckes.test_list2.Containers.alarms;
+import com.chadfunckes.test_list2.Models.alarms;
 
 import java.util.Calendar;
 import java.util.List;

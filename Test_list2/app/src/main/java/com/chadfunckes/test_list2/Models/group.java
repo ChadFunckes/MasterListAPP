@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2.Containers;
+package com.chadfunckes.test_list2.Models;
 
 import java.util.Comparator;
 
@@ -10,6 +10,7 @@ public class group {
     public group(){
     }
 
+    // comparator to allow sorting of the list in ABC order
     public static Comparator<group> ByName = new Comparator<group>() {
         @Override
         public int compare(group lhs, group rhs) {

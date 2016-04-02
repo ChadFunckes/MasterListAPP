@@ -19,9 +19,9 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
-import com.chadfunckes.test_list2.Adapters.MainExpandableListAdapter;
-import com.chadfunckes.test_list2.Containers.group;
-import com.chadfunckes.test_list2.Containers.listItem;
+import com.chadfunckes.test_list2.View_Adapters.MainExpandableListAdapter;
+import com.chadfunckes.test_list2.Models.group;
+import com.chadfunckes.test_list2.Models.listItem;
 
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity"; // debug log tag

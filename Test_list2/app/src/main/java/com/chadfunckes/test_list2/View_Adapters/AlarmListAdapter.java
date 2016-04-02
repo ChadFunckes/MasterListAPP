@@ -1,23 +1,14 @@
-package com.chadfunckes.test_list2.Adapters;
+package com.chadfunckes.test_list2.View_Adapters;
 
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.DataSetObserver;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.chadfunckes.test_list2.AlarmReceiver;
-import com.chadfunckes.test_list2.Alarm_Activity;
-import com.chadfunckes.test_list2.Containers.alarms;
-import com.chadfunckes.test_list2.MainActivity;
+import com.chadfunckes.test_list2.Models.alarms;
 import com.chadfunckes.test_list2.R;
 
 import java.util.List;

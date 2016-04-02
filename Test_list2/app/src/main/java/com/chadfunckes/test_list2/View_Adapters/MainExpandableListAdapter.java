@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2.Adapters;
+package com.chadfunckes.test_list2.View_Adapters;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chadfunckes.test_list2.Alarm_Activity;
-import com.chadfunckes.test_list2.Containers.group;
-import com.chadfunckes.test_list2.Containers.listItem;
+import com.chadfunckes.test_list2.Models.group;
+import com.chadfunckes.test_list2.Models.listItem;
 import com.chadfunckes.test_list2.MainActivity;
 import com.chadfunckes.test_list2.MapsActivity;
 import com.chadfunckes.test_list2.R;

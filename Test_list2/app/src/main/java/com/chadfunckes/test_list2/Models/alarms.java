@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2.Containers;
+package com.chadfunckes.test_list2.Models;
 
 import java.util.Calendar;
 import java.util.Comparator;

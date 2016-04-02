@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2.Containers;
+package com.chadfunckes.test_list2.Models;
 
 /*
 This container is a basic structure that holds info about a specific list item
@@ -23,6 +23,7 @@ public class listItem {
         image = "";
     }
 
+    // comparator allows sorting of list items in order
     public static Comparator<listItem> ByName = new Comparator<listItem>() {
         @Override
         public int compare(listItem lhs, listItem rhs) {
