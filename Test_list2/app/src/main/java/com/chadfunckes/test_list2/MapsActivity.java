@@ -80,7 +80,7 @@ public class MapsActivity extends Activity implements
             }
         }
 
-        buildGoogleApiClient();
+       buildGoogleApiClient();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MapsActivity extends Activity implements
     @Override
     protected void onStop() {
         super.onStop();
-        googleApiClient.disconnect();
+       googleApiClient.disconnect();
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -215,11 +215,11 @@ public class MapsActivity extends Activity implements
                       public void onClick(DialogInterface dialog, int which) {
                           // do arrive function
                           // get distance
-                          String diztaunce = distance.getText().toString();
-                          int dist = Integer.getInteger(diztaunce);
-                          setFence(dist,false);
+                          //String diztaunce = distance.getText().toString();
+                          //int dist = Integer.getInteger(diztaunce);
+                          setFence(100,false);
                           // set into db
-                          setInDatabase(dist, false);
+                          //setInDatabase(dist, false);
                       }
                   })
             .create().show();
@@ -227,7 +227,7 @@ public class MapsActivity extends Activity implements
 
     }
 
-    // close the keyboard by getting the input manager and hiding it.
+// close the keyboard by getting the input manager and hiding it.
     private void clearKeyboard(View view){
         if (view != null){
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -235,10 +235,11 @@ public class MapsActivity extends Activity implements
         }
     }
 
-    // function to set the geofence into memory
+// function to set the geofence into memory
     private void setFence(int distance, boolean ad){
         // bool ad is true if selection was depart, false if selection was arrive
-        // group, item, LAT and LNG exits already in the object
+        // group, item, LAT and LNG exits already in this object
+        // fence ID will consist of group ID followed by Item ID
         String fenceID = "G"+GID+"I"+IID;
 
         // create geofence Object
@@ -259,15 +260,14 @@ public class MapsActivity extends Activity implements
 
         // send all to location services
         LocationServices.GeofencingApi.addGeofences(googleApiClient, GRBuild.build(),pendingIntent);
-
     }
-
-
+// puts the geofence data into the database
     private void setInDatabase(int distance, boolean ad){
         // bool ad is true if selection was depart, false if selection was arrive
+        // group, item, LAT and LNG exits already in this object
     }
 
-
+/// google API client callbacks (required for geofencing)
     @Override
     public void onConnected(Bundle bundle) {
         Log.i(TAG, "Connected to GoogleApiClient");
@@ -283,10 +283,11 @@ public class MapsActivity extends Activity implements
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
-
     @Override
     public void onResult(Status status) {
 
     }
+/// END GOOGLE CALLBACK SECTION
+
 }
 

@@ -11,13 +11,10 @@ import android.graphics.Color;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.chadfunckes.test_list2.GeoFence.GeofenceErrorMessages;
 import com.chadfunckes.test_list2.MainActivity;
 import com.chadfunckes.test_list2.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
