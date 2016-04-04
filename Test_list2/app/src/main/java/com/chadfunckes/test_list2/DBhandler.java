@@ -156,7 +156,8 @@ public class DBhandler extends SQLiteOpenHelper {
                 "LAT DOUBLE, " +
                 "LNG DOUBLE, " +
                 "ARR_DEP INT, " +
-                "DIST INT);";
+                "DIST INT, " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT);";
         db.execSQL(CMD);
     }
 
@@ -187,13 +188,19 @@ public class DBhandler extends SQLiteOpenHelper {
             fence.LNG = c.getDouble(3);
             fence.ARR_DEP = c.getInt(4);
             fence.DIST = c.getInt(5);
+            fence.SYSTEMID = c.getInt(6);
             return fence;
         }
-
         return null;
     }
-
-
+    public int getFenceSystemID(Fence fence){
+        Cursor c = db.rawQuery("SELECT * FROM " + FENCES_TABLE + " WHERE FID = '"+ fence.FID + "'", null);
+        c.moveToFirst();
+        if (!c.isAfterLast()){
+            return c.getInt(6);
+        }
+        return 0;
+    }
     // alarms functions
     public int addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
         long AID;

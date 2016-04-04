@@ -220,9 +220,9 @@ public class MapsActivity extends Activity implements
         }
     }
 
-    public void removeAddress(Fence fence){
+    public void removeAddress(final Fence fence){
         // do shit to remove fence from memory
-
+        removeFence(fence);
         // do shit to remove fence from database
         MainActivity.database.removeFence(fence.FID);
         finish();
@@ -237,7 +237,7 @@ public class MapsActivity extends Activity implements
     }
 
 // function to set the geofence into memory
-    private void setFence(Fence fence){
+    private void setFence(final Fence fence){
         // bool ad is true if selection was depart, false if selection was arrive
         // group, item, LAT and LNG exits already in this object
         // fence ID will consist of group ID followed by Item ID
@@ -256,14 +256,14 @@ public class MapsActivity extends Activity implements
 
         // create new intent for the monitoring service and pending intent data
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(this, MainActivity.database.getFenceSystemID(fence), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // send all to location services
         LocationServices.GeofencingApi.addGeofences(googleApiClient, GRBuild.build(),pendingIntent).setResultCallback(this);
     }
 // function to remove the geofence from memory
-    public void removeFence(Fence fence){
-
+    public void removeFence(final Fence fence){
+        // create geofence Object
         Geofence.Builder builder = new Geofence.Builder()
                 .setRequestId(fenceID) // string to id this fence
                 .setCircularRegion(fence.LAT, fence.LNG, fence.DIST)
@@ -277,9 +277,9 @@ public class MapsActivity extends Activity implements
 
         // create new intent for the monitoring service and pending intent data
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(this, MainActivity.database.getFenceSystemID(fence), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // send all to location services
+        // send all to location services to remove match
         LocationServices.GeofencingApi.removeGeofences(googleApiClient,pendingIntent).setResultCallback(this);
     }
 
