@@ -108,6 +108,7 @@ public class MainActivity extends Activity {
         expListView.setAdapter(listAdapter);
     }
 
+    // redraws the list after content changes
     public static void redrawList(){
         fillList();
         listAdapter = new MainExpandableListAdapter(mContext, listDataHeader, listDataChild);
@@ -167,7 +168,6 @@ public class MainActivity extends Activity {
         Collections.sort(listDataHeader, group.ByName);
         if (listDataHeader.size() == 0) return; // if no groups then no items
         listDataChild = database.getItems(listDataHeader);
-
     }
 
 }

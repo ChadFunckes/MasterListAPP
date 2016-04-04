@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.chadfunckes.test_list2.Models.Fence;
 import com.chadfunckes.test_list2.Models.alarms;
 import com.chadfunckes.test_list2.Models.group;
 import com.chadfunckes.test_list2.Models.listItem;
@@ -27,6 +28,7 @@ public class DBhandler extends SQLiteOpenHelper {
     private static final String ITEMS_TABLE = "ITEMS";
     private static final String ALARM_TABLE = "ALARMS";
     private static final String LOC_TABLE = "LOCATIONS";
+    private static final String FENCES_TABLE = "FENCES";
 
     public DBhandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,6 +42,7 @@ public class DBhandler extends SQLiteOpenHelper {
         createItems();
         createAlarms();
         createLocations();
+        createFences();
         createSampleGroups();
         createSampleItems();
     }
@@ -135,17 +138,63 @@ public class DBhandler extends SQLiteOpenHelper {
         db.execSQL(CMD);
     }
     private void createLocations(){
+        // ARR_DEP VALUE IS TRUE ON DEPART, FALSE ON ARRIVE
         String CMD = "CREATE TABLE " + LOC_TABLE +
                 " (GID INTEGER NOT NULL, " +
                 "IID INTEGER, " +
-                "LAT INTEGER, " +
-                "LNG INTEGER, " +
-                "ARR INTEGER, " +
-                "DEP INTEGER);";
-
+                "LAT DOUBLE, " +
+                "LNG DOUBLE, " +
+                "ADDRESS TEXT, " +
+                "ARR_DEP INTEGER);";
+        db.execSQL(CMD);
+    }
+    private void createFences(){
+        // ARR_DEP VALUE IS TRUE ON DEPART, FALSE ON ARRIVE
+        String CMD = "CREATE TABLE " + FENCES_TABLE +
+                " (FID TEXT NOT NULL, " +
+                "ADDRESS TEXT NOT NULL, " +
+                "LAT DOUBLE, " +
+                "LNG DOUBLE, " +
+                "ARR_DEP INT, " +
+                "DIST INT);";
         db.execSQL(CMD);
     }
 
+    // fences functions
+    public void addFence(final Fence fence){
+        ContentValues cv = new ContentValues();
+        cv.put("FID", fence.FID);
+        cv.put("ADDRESS", fence.ADD);
+        cv.put("LAT", fence.LAT);
+        cv.put("LNG", fence.LNG);
+        cv.put("ARR_DEP", fence.ARR_DEP);
+        cv.put("DIST", fence.DIST);
+        db.insert(FENCES_TABLE, null, cv);
+        Log.d(TAG, "Fence ID " + fence.FID + " Inserted in DB");
+    }
+    public void removeFence(final String FID){
+        db.delete(FENCES_TABLE, "FID='" + FID + "'", null);
+    }
+    public Fence getFence(int GID, int IID){
+        Cursor c = db.rawQuery("SELECT * FROM " + FENCES_TABLE + " WHERE FID = 'G"+GID+"I"+IID+"'", null);
+
+        c.moveToFirst();
+        if (!c.isAfterLast()){
+            Fence fence = new Fence();
+            fence.FID = c.getString(0);
+            fence.ADD = c.getString(1);
+            fence.LAT = c.getDouble(2);
+            fence.LNG = c.getDouble(3);
+            fence.ARR_DEP = c.getInt(4);
+            fence.DIST = c.getInt(5);
+            return fence;
+        }
+
+        return null;
+    }
+
+
+    // alarms functions
     public int addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
         long AID;
         ContentValues cv = new ContentValues();
@@ -214,6 +263,7 @@ public class DBhandler extends SQLiteOpenHelper {
         return alarmList;
     }
 
+    //groups functions
     // get a list of group object from the database for display headings
     public List<group> getGroups(){
         List<group> listData = new ArrayList<>();
@@ -283,6 +333,8 @@ public class DBhandler extends SQLiteOpenHelper {
 
         return childMap;
     }
+
+    //Item Functions
     public String getItemName(final int IID){
         Cursor c = db.rawQuery("SELECT * FROM "+ ITEMS_TABLE + " WHERE _ID=" + IID, null);
         if (c == null) return "Shits Broke";
