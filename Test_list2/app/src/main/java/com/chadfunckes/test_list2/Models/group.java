@@ -11,7 +11,7 @@ public class Group {
     }
 
     // comparator to allow sorting of the list in ABC order
-    public static Comparator<Group> ByName = new Comparator<Group>() {
+    public static final Comparator<Group> ByName = new Comparator<Group>() {
         @Override
         public int compare(Group lhs, Group rhs) {
 

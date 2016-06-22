@@ -28,11 +28,11 @@ import com.chadfunckes.test_list2.R;
 
 public class MainExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private String TAG = "MainExpandableListAdapter";
-    private Context _context;
-    private List<Group> _listDataHeader; // header groups
+    private final String TAG = "MainExpandableListAdapter";
+    private final Context _context;
+    private final List<Group> _listDataHeader; // header groups
     // child data in format of header Group, child object
-    private HashMap<Group, List<ListItem>> _listDataChild;
+    private final HashMap<Group, List<ListItem>> _listDataChild;
 
     public MainExpandableListAdapter(Context context, List<Group> listDataHeader,
                                      HashMap<Group, List<ListItem>> listChildData) {
@@ -53,7 +53,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final ListItem thisChild = (ListItem) getChild(groupPosition,childPosition);
-        final String childText = (String) thisChild.name;
+        final String childText = thisChild.name;
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -149,7 +149,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
 
         final Group thisGroup = (Group) getGroup(groupPosition);
-        String headerTitle = (String) thisGroup.name;
+        String headerTitle = thisGroup.name;
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context

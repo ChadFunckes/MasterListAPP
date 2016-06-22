@@ -28,15 +28,18 @@ import java.util.List;
 public class Alarm_Activity extends Activity  {
     private final static String TAG = "Alarm Activity";
     private String CALLED_ON;
-    int GID, IID, AID;
+    private int GID;
+    private int IID;
+    private int AID;
     static int alYear, alMonth, alDay, alHour, alMinute = -1;
-    static String GROUP_NAME, ITEM_NAME;
-    static Context mContext;
+    private static String GROUP_NAME;
+    private static String ITEM_NAME;
+    private static Context mContext;
     private static ListView list; // reference for the listview
     private static ListAdapter adapter; // array adapter for the list
     private List<Alarm> alarmList; // the list of Alarm for this item
 
-    FragmentManager fm = getFragmentManager();
+    private final FragmentManager fm = getFragmentManager();
 
     public Alarm_Activity(){
         // empty constructor
@@ -149,7 +152,7 @@ public class Alarm_Activity extends Activity  {
         finish();
     }
 
-    public void refreshList(){
+    private void refreshList(){
         if (IID != -1)
             fillList(IID, 1);
         else
@@ -159,7 +162,7 @@ public class Alarm_Activity extends Activity  {
         list.setAdapter(adapter);
     }
 
-    public void fillList(int ID, int from){
+    private void fillList(int ID, int from){
         // get alarm list from GID or IID
         alarmList = MainActivity.database.getAlarms(ID, from);
         Collections.sort(alarmList, Alarm.ByDate);

@@ -27,12 +27,12 @@ public class MainActivity extends Activity {
     private final String TAG = "MainActivity"; // debug log tag
     private static int lastExpandedPosition = -1; // used for collapsing unused groups
     // expandable list and adapters
-    static MainExpandableListAdapter listAdapter;
-    static ExpandableListView expListView;
+    private static MainExpandableListAdapter listAdapter;
+    private static ExpandableListView expListView;
     // List Containers
-    static List<Group> listDataHeader;
-    static HashMap<Group, List<ListItem>> listDataChild;
-    static Context mContext;
+    private static List<Group> listDataHeader;
+    private static HashMap<Group, List<ListItem>> listDataChild;
+    private static Context mContext;
     public static DBhandler database;
 
     @Override
@@ -65,7 +65,6 @@ public class MainActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "GROUP LONG CLICK");
-                int childPosition, groupPosition;
 // @TODO this section gets long clicks of the Group and the child, use for editing.
                 int itemType = ExpandableListView.getPackedPositionType(id);
 

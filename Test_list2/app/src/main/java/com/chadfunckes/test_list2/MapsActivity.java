@@ -41,16 +41,17 @@ public class MapsActivity extends Activity implements
     private final static String TAG = "Maps Activity";
     private final int DISTANCE = 100;
     //private String CALLED_ON;
-    int GID, IID;
+    private int GID;
+    private int IID;
     //double LAT, LNG;
     private String fenceID;
     private Fence fence;
     private Context mContext;
     private EditText input;
-    GoogleApiClient googleApiClient;
-    boolean mShowMap;
-    GoogleMap mMap;
-    MapFragment mapFrag;
+    private GoogleApiClient googleApiClient;
+    private boolean mShowMap;
+    private GoogleMap mMap;
+    private MapFragment mapFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class MapsActivity extends Activity implements
        googleApiClient.disconnect();
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -143,7 +144,7 @@ public class MapsActivity extends Activity implements
     // This function is called to put the resulted address on the map
     public void AddressToMap(View view) {
         String inputAddress;
-        List<Address> address = null;
+        List<Address> address;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         inputAddress = input.getText().toString();
         clearKeyboard(view); // take keyboard off screen
@@ -168,7 +169,7 @@ public class MapsActivity extends Activity implements
      */
     public void AcceptAddress(View view){
         final String inputAddress;
-        List<Address> address = null;
+        List<Address> address;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         inputAddress = input.getText().toString();
         clearKeyboard(view);  // take keyboard off screen
@@ -219,7 +220,7 @@ public class MapsActivity extends Activity implements
         }
     }
 
-    public void removeAddress(final Fence fence){
+    private void removeAddress(final Fence fence){
         // do shit to remove fence from memory
         removeFence(fence);
         // do shit to remove fence from database
@@ -261,7 +262,7 @@ public class MapsActivity extends Activity implements
         LocationServices.GeofencingApi.addGeofences(googleApiClient, GRBuild.build(),pendingIntent).setResultCallback(this);
     }
 // function to remove the geofence from memory
-    public void removeFence(final Fence fence){
+private void removeFence(final Fence fence){
         // create geofence Object
         Geofence.Builder builder = new Geofence.Builder()
                 .setRequestId(fenceID) // string to id this fence
@@ -304,7 +305,7 @@ public class MapsActivity extends Activity implements
     }
 /// END GOOGLE CALLBACK SECTION
 
-    public void end(){
+    private void end(){
     finish();
 }
 

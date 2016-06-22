@@ -24,7 +24,7 @@ public class ListItem {
     }
 
     // comparator allows sorting of list items in order
-    public static Comparator<ListItem> ByName = new Comparator<ListItem>() {
+    public static final Comparator<ListItem> ByName = new Comparator<ListItem>() {
         @Override
         public int compare(ListItem lhs, ListItem rhs) {
             String left = lhs.name.toUpperCase();

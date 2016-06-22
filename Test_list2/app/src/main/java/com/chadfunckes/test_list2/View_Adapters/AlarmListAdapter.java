@@ -15,8 +15,8 @@ import java.util.List;
 
 public class AlarmListAdapter implements ListAdapter {
     private final String TAG = "ALARM LIST ADAPTER";
-    private Context _context;
-    public List<Alarm> theList;
+    private final Context _context;
+    private final List<Alarm> theList;
 
     public AlarmListAdapter(Context context, List<Alarm> theList){
         this._context = context;

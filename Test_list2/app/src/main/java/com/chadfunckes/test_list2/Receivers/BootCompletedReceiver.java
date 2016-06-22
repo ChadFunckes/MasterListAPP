@@ -14,7 +14,7 @@ import java.util.List;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
 
-    public static DBhandler database;
+    private static DBhandler database;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,7 +50,6 @@ public class BootCompletedReceiver extends BroadcastReceiver {
             alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                     pendingIntent);
 
-            thisAlarm = null; // free alarm info when done w it...
         } // loop for all Alarm
     }
 }

@@ -15,8 +15,8 @@ import com.chadfunckes.test_list2.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static int NOTIFICATION_ID;
-    public static DBhandler database;
+    private static int NOTIFICATION_ID;
+    private static DBhandler database;
 
     @Override
     public void onReceive(Context k1, Intent k2) {
@@ -59,7 +59,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .build();
 
         // get the systems notification manager
-        NotificationManager notificationManager = (NotificationManager) k1.getSystemService(k1.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) k1.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //send the actual notification
         notificationManager.notify(NOTIFICATION_ID, notification);

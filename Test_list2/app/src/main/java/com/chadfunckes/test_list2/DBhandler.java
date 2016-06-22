@@ -20,8 +20,8 @@ import java.util.List;
 
 public class DBhandler extends SQLiteOpenHelper {
     private final static String TAG = "DBhandler"; // debug tag
-    public static SQLiteDatabase db;
-    private Context dbContext;  // universal context item
+    private static SQLiteDatabase db;
+    private final Context dbContext;  // universal context item
     private static final int DATABASE_VERSION = 1;          //db version number
     private static final String DATABASE_NAME = "master";
     private static final String GROUP_TABLE = "GROUPS";
@@ -33,11 +33,11 @@ public class DBhandler extends SQLiteOpenHelper {
     public DBhandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.dbContext = context;
-        this.db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        this.db = db;
+        DBhandler.db = db;
         createGroups();
         createItems();
         createAlarms();
@@ -191,6 +191,7 @@ public class DBhandler extends SQLiteOpenHelper {
             fence.SYSTEMID = c.getInt(6);
             return fence;
         }
+        c.close();
         return null;
     }
     public int getFenceSystemID(Fence fence){
@@ -199,6 +200,7 @@ public class DBhandler extends SQLiteOpenHelper {
         if (!c.isAfterLast()){
             return c.getInt(6);
         }
+        c.close();
         return 0;
     }
     // Alarm functions
@@ -246,6 +248,7 @@ public class DBhandler extends SQLiteOpenHelper {
                 c.moveToNext();
             }
         Log.d(TAG, alarmList.toString());
+        c.close();
         return alarmList;
     }
     public List<Alarm> getALLAlarms(){
@@ -267,6 +270,7 @@ public class DBhandler extends SQLiteOpenHelper {
             alarmList.add(a);
             c.moveToNext();
         }
+        c.close();
         return alarmList;
     }
 
@@ -285,7 +289,7 @@ public class DBhandler extends SQLiteOpenHelper {
             listData.add(g);
             c.moveToNext();
         }
-
+        c.close();
         return listData;
     }
     public String getGroupName(final int GID){
@@ -313,12 +317,12 @@ public class DBhandler extends SQLiteOpenHelper {
 
     // get a hash with Group item keys that match the list taken as the parameter
     public HashMap<Group, List<ListItem>> getItems(List<Group> g){
-        HashMap<Group, List<ListItem>> childMap = new HashMap<Group, List<ListItem>>();
+        HashMap<Group, List<ListItem>> childMap = new HashMap<>();
         List<ListItem> il;
         Cursor c;
 
-        for (int i = 0; i < g.size(); i++){
-            c = db.rawQuery("SELECT * FROM "+ ITEMS_TABLE + " WHERE GROUP_ID =" + g.get(i)._id, null);
+        for (int i = 0; i < g.size(); i++) {
+            c = db.rawQuery("SELECT * FROM " + ITEMS_TABLE + " WHERE GROUP_ID =" + g.get(i)._id, null);
             if (c == null) break;
             il = new ArrayList<>();
             c.moveToFirst();
@@ -337,7 +341,6 @@ public class DBhandler extends SQLiteOpenHelper {
             Collections.sort(il, ListItem.ByName);
             childMap.put(g.get(i), il);
         }
-
         return childMap;
     }
 
