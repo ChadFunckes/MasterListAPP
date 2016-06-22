@@ -71,16 +71,10 @@ public class MainActivity extends Activity {
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
                     Log.d(TAG, "long child click");
-                    childPosition = ExpandableListView.getPackedPositionChild(id);
-                    groupPosition = ExpandableListView.getPackedPositionGroup(id);
-
-                    //@TODO do your per-item callback here (edit text dialog to change name?
                     return true; //true if we consumed the click, false if not
 
                 } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                     Log.d(TAG, "long Group click");
-                    groupPosition = ExpandableListView.getPackedPositionGroup(id);
-                    // @TODO do your per-Group callback here
                     return true; //true if we consumed the click, false if not
 
                 } else {
