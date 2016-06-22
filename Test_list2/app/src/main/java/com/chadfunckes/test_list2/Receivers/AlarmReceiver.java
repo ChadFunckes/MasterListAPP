@@ -1,4 +1,4 @@
-package com.chadfunckes.test_list2.Recievers;
+package com.chadfunckes.test_list2.Receivers;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,16 +8,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.widget.ListView;
 
 import com.chadfunckes.test_list2.DBhandler;
 import com.chadfunckes.test_list2.MainActivity;
 import com.chadfunckes.test_list2.R;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -26,7 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context k1, Intent k2) {
-        // set notification ID based on the intent data ID .. should be GID for group alarm GID+IID for item alarm
+        // set notification ID based on the intent data ID .. should be GID for Group alarm GID+IID for item alarm
         NOTIFICATION_ID = k2.getIntExtra("AID", -1);
         String messageText;
         Intent intent = new Intent(k1, MainActivity.class);

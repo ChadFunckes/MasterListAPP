@@ -20,8 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chadfunckes.test_list2.Alarm_Activity;
-import com.chadfunckes.test_list2.Models.group;
-import com.chadfunckes.test_list2.Models.listItem;
+import com.chadfunckes.test_list2.Models.Group;
+import com.chadfunckes.test_list2.Models.ListItem;
 import com.chadfunckes.test_list2.MainActivity;
 import com.chadfunckes.test_list2.MapsActivity;
 import com.chadfunckes.test_list2.R;
@@ -30,12 +30,12 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
 
     private String TAG = "MainExpandableListAdapter";
     private Context _context;
-    private List<group> _listDataHeader; // header groups
-    // child data in format of header group, child object
-    private HashMap<group, List<listItem>> _listDataChild;
+    private List<Group> _listDataHeader; // header groups
+    // child data in format of header Group, child object
+    private HashMap<Group, List<ListItem>> _listDataChild;
 
-    public MainExpandableListAdapter(Context context, List<group> listDataHeader,
-                                     HashMap<group, List<listItem>> listChildData) {
+    public MainExpandableListAdapter(Context context, List<Group> listDataHeader,
+                                     HashMap<Group, List<ListItem>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -43,7 +43,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        Log.d(TAG, "on get child, group pos is: " + groupPosition + " child position is " + childPosititon);
+        Log.d(TAG, "on get child, Group pos is: " + groupPosition + " child position is " + childPosititon);
         return this._listDataChild.get(this._listDataHeader.get(groupPosition))
                 .get(childPosititon);
     }
@@ -52,7 +52,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final listItem thisChild = (listItem) getChild(groupPosition,childPosition);
+        final ListItem thisChild = (ListItem) getChild(groupPosition,childPosition);
         final String childText = (String) thisChild.name;
 
         if (convertView == null) {
@@ -148,7 +148,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
 
-        final group thisGroup = (group) getGroup(groupPosition);
+        final Group thisGroup = (Group) getGroup(groupPosition);
         String headerTitle = (String) thisGroup.name;
 
         if (convertView == null) {
@@ -187,7 +187,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
         alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "alarm button for group " + thisGroup.name);
+                Log.d(TAG, "alarm button for Group " + thisGroup.name);
                 Intent intent = new Intent(_context, Alarm_Activity.class);
                 intent.putExtra("IID", -1);
                 intent.putExtra("GID", thisGroup._id);
@@ -200,7 +200,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Map clicked for group " + thisGroup.name);
+                Log.d(TAG, "Map clicked for Group " + thisGroup.name);
                 Intent intent = new Intent(_context, MapsActivity.class);
                 intent.putExtra("CALLED_ON", "GROUP");
                 intent.putExtra("GID", thisGroup._id);
@@ -212,7 +212,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add item into group via dialog box
+                // Add item into Group via dialog box
                 final EditText input = new EditText(_context);
                 new AlertDialog.Builder(_context).setView(input)
                         .setTitle("Add Item")
@@ -224,7 +224,7 @@ public class MainExpandableListAdapter extends BaseExpandableListAdapter {
                                     Toast.makeText(_context, "You must enter a name", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
-                                    listItem newItem = new listItem();
+                                    ListItem newItem = new ListItem();
                                     newItem.name = input.getText().toString();
                                     MainActivity.database.addItem(thisGroup._id, newItem);
                                     MainActivity.redrawList();

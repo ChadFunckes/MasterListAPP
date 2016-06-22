@@ -19,9 +19,9 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
+import com.chadfunckes.test_list2.Models.Group;
 import com.chadfunckes.test_list2.View_Adapters.MainExpandableListAdapter;
-import com.chadfunckes.test_list2.Models.group;
-import com.chadfunckes.test_list2.Models.listItem;
+import com.chadfunckes.test_list2.Models.ListItem;
 
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity"; // debug log tag
@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
     static MainExpandableListAdapter listAdapter;
     static ExpandableListView expListView;
     // List Containers
-    static List<group> listDataHeader;
-    static HashMap<group, List<listItem>> listDataChild;
+    static List<Group> listDataHeader;
+    static HashMap<Group, List<ListItem>> listDataChild;
     static Context mContext;
     public static DBhandler database;
 
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                listItem thisItem = (listItem)listAdapter.getChild(groupPosition, childPosition); // get the child item
+                ListItem thisItem = (ListItem)listAdapter.getChild(groupPosition, childPosition); // get the child item
                 Log.d(TAG, "child item modified was id: " + thisItem._id + " named " + thisItem.name);
                 boolean finished = database.itemToggleFinished(thisItem);
                 Log.d(TAG, "finished thanged to " + finished);
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "GROUP LONG CLICK");
                 int childPosition, groupPosition;
-// @TODO this section gets long clicks of the group and the child, use for editing.
+// @TODO this section gets long clicks of the Group and the child, use for editing.
                 int itemType = ExpandableListView.getPackedPositionType(id);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
@@ -78,9 +78,9 @@ public class MainActivity extends Activity {
                     return true; //true if we consumed the click, false if not
 
                 } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    Log.d(TAG, "long group click");
+                    Log.d(TAG, "long Group click");
                     groupPosition = ExpandableListView.getPackedPositionGroup(id);
-                    // @TODO do your per-group callback here
+                    // @TODO do your per-Group callback here
                     return true; //true if we consumed the click, false if not
 
                 } else {
@@ -131,12 +131,12 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
         switch (id){
             case (R.id.addGroup):
-                // start add new group dialog
+                // start add new Group dialog
                 final EditText input = new EditText(MainActivity.this);
                 new AlertDialog.Builder(MainActivity.this)
                         .setView(input)
                         .setTitle("Add Group")
-                        .setMessage("Enter the name of the new group")
+                        .setMessage("Enter the name of the new Group")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -144,7 +144,7 @@ public class MainActivity extends Activity {
                                     Toast.makeText(MainActivity.this, "You must enter a name", Toast.LENGTH_SHORT).show();
                                     dialog.cancel();
                                 } else {
-                                    group grp = new group();
+                                    Group grp = new Group();
                                     grp.name = input.getText().toString();
                                     database.addGroup(grp);
                                     redrawList();
@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
         listDataHeader = database.getGroups();
-        Collections.sort(listDataHeader, group.ByName);
+        Collections.sort(listDataHeader, Group.ByName);
         if (listDataHeader.size() == 0) return; // if no groups then no items
         listDataChild = database.getItems(listDataHeader);
     }

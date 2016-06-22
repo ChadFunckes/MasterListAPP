@@ -35,13 +35,13 @@
             android:label="Geo Location"/>
 
         <!--
-     recievers section alarmReciever picks up set timed alarms
-     BootComplete picks up boot events to re-establish alarms
+     recievers section alarmReciever picks up set timed Alarm
+     BootComplete picks up boot events to re-establish Alarm
         -->
         <receiver
-            android:name=".Recievers.AlarmReceiver"
+            android:name=".Receivers.AlarmReceiver"
             android:process=":remote" />
-        <receiver android:name=".Recievers.BootCompletedReceiver">
+        <receiver android:name=".Receivers.BootCompletedReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.INFO" />
 

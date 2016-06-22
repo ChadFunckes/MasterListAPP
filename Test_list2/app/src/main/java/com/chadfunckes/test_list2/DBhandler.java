@@ -8,10 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.chadfunckes.test_list2.Models.Alarm;
 import com.chadfunckes.test_list2.Models.Fence;
-import com.chadfunckes.test_list2.Models.alarms;
-import com.chadfunckes.test_list2.Models.group;
-import com.chadfunckes.test_list2.Models.listItem;
+import com.chadfunckes.test_list2.Models.Group;
+import com.chadfunckes.test_list2.Models.ListItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -201,7 +201,7 @@ public class DBhandler extends SQLiteOpenHelper {
         }
         return 0;
     }
-    // alarms functions
+    // Alarm functions
     public int addAlarm(final int GID, final int IID, final int alYear, final int alMonth, final int alDay, final int alHour, final int alMinute){
         long AID;
         ContentValues cv = new ContentValues();
@@ -219,10 +219,10 @@ public class DBhandler extends SQLiteOpenHelper {
     public void removeAlarm(final int AID){
         db.delete(ALARM_TABLE, "AID=" + AID, null);
     }
-    public List<alarms> getAlarms(final int ID, final int from){
+    public List<Alarm> getAlarms(final int ID, final int from){
         // list paramaters are ID - for the ID to search and and from - for the column to search in
-        // 0 for group, 1 for item
-        List<alarms> alarmList = new ArrayList<>();
+        // 0 for Group, 1 for item
+        List<Alarm> alarmList = new ArrayList<>();
         Cursor c;
         if (from == 0) { // IF 0 CAME FROM GROUP IF 1 CAME FROM ITEM
             c = db.rawQuery("SELECT * FROM " + ALARM_TABLE + " WHERE GID=" + ID + ";", null);
@@ -233,7 +233,7 @@ public class DBhandler extends SQLiteOpenHelper {
         }
             c.moveToFirst();
             while (!c.isAfterLast()) {
-                alarms a = new alarms();
+                Alarm a = new Alarm();
                 a.GID = c.getInt(0);
                 a.IID = c.getInt(1);
                 a.year = c.getInt(2);
@@ -248,14 +248,14 @@ public class DBhandler extends SQLiteOpenHelper {
         Log.d(TAG, alarmList.toString());
         return alarmList;
     }
-    public List<alarms> getALLAlarms(){
-        List<alarms> alarmList = new ArrayList<>();
+    public List<Alarm> getALLAlarms(){
+        List<Alarm> alarmList = new ArrayList<>();
         Cursor c;
         c = db.rawQuery("SELECT * FROM " + ALARM_TABLE + ";", null);
         if (c == null) return alarmList;
         c.moveToFirst();
         while (!c.isAfterLast()) {
-            alarms a = new alarms();
+            Alarm a = new Alarm();
             a.GID = c.getInt(0);
             a.IID = c.getInt(1);
             a.year = c.getInt(2);
@@ -271,15 +271,15 @@ public class DBhandler extends SQLiteOpenHelper {
     }
 
     //groups functions
-    // get a list of group object from the database for display headings
-    public List<group> getGroups(){
-        List<group> listData = new ArrayList<>();
+    // get a list of Group object from the database for display headings
+    public List<Group> getGroups(){
+        List<Group> listData = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT * FROM " + GROUP_TABLE +";", null);
         if (c == null) return listData; // if no groups to get return empty list
 
         c.moveToFirst();
         while (!c.isAfterLast()){
-            group g = new group();
+            Group g = new Group();
             g._id = c.getInt(0);
             g.name = c.getString(1);
             listData.add(g);
@@ -293,7 +293,7 @@ public class DBhandler extends SQLiteOpenHelper {
         c.moveToFirst();
         return c.getString(1);
     }
-    public void addGroup(final group grp){
+    public void addGroup(final Group grp){
         ContentValues cv = new ContentValues();
         cv.put("NAME", grp.name);
         db.insert(GROUP_TABLE, null, cv);
@@ -301,20 +301,20 @@ public class DBhandler extends SQLiteOpenHelper {
     public void removeGroup(final int grpID){
         // delete all children
         db.delete(ITEMS_TABLE, "GROUP_ID=" + grpID, null);
-        // delete all alarms with group
+        // delete all Alarm with Group
         db.delete(ALARM_TABLE, "GID=" + grpID, null);
-        // @TODO delete any pending alarms...
-        // delete all location with group
+        // @TODO delete any pending Alarm...
+        // delete all location with Group
         db.delete(LOC_TABLE, "GID=" + grpID, null);
         // @TODO delete any pending geofences....
-        // delete group
+        // delete Group
         db.delete(GROUP_TABLE, "_ID=" + grpID, null);
     }
 
-    // get a hash with group item keys that match the list taken as the parameter
-    public HashMap<group, List<listItem>> getItems(List<group> g){
-        HashMap<group, List<listItem>> childMap = new HashMap<group, List<listItem>>();
-        List<listItem> il;
+    // get a hash with Group item keys that match the list taken as the parameter
+    public HashMap<Group, List<ListItem>> getItems(List<Group> g){
+        HashMap<Group, List<ListItem>> childMap = new HashMap<Group, List<ListItem>>();
+        List<ListItem> il;
         Cursor c;
 
         for (int i = 0; i < g.size(); i++){
@@ -323,7 +323,7 @@ public class DBhandler extends SQLiteOpenHelper {
             il = new ArrayList<>();
             c.moveToFirst();
             while (!c.isAfterLast()) {
-                listItem item = new listItem();
+                ListItem item = new ListItem();
                 item._id = c.getInt(0);
                 item.groupID = c.getInt(1);
                 item.name = c.getString(2);
@@ -334,7 +334,7 @@ public class DBhandler extends SQLiteOpenHelper {
                 il.add(item);
                 c.moveToNext();
             }
-            Collections.sort(il, listItem.ByName);
+            Collections.sort(il, ListItem.ByName);
             childMap.put(g.get(i), il);
         }
 
@@ -348,7 +348,7 @@ public class DBhandler extends SQLiteOpenHelper {
         c.moveToFirst();
         return c.getString(2);
     }
-    public void addItem(final int groupID, final listItem item){
+    public void addItem(final int groupID, final ListItem item){
         ContentValues cv = new ContentValues();
 
         cv.put("GROUP_ID", groupID);
@@ -364,9 +364,9 @@ public class DBhandler extends SQLiteOpenHelper {
         db.delete(ITEMS_TABLE, "_ID="+itemID, null); // delete the item from items
         db.delete(ALARM_TABLE, "IID="+itemID, null); // delete any id that matches the items
         db.delete(LOC_TABLE, "IID="+itemID, null); // delete and location that matches the item
-        // @TODO remove any item specific alarms and geofences
+        // @TODO remove any item specific Alarm and geofences
     }
-    public boolean itemToggleFinished(final listItem thisItem){ // will return true if the item was given the finished value, false if it was changed to unfinished
+    public boolean itemToggleFinished(final ListItem thisItem){ // will return true if the item was given the finished value, false if it was changed to unfinished
         String CMD = "SELECT * FROM " + ITEMS_TABLE + " WHERE _ID = " + thisItem._id;
         Cursor c = db.rawQuery(CMD, null);
         if (c == null){

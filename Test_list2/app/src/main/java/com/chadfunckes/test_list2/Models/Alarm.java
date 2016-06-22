@@ -3,7 +3,7 @@ package com.chadfunckes.test_list2.Models;
 import java.util.Calendar;
 import java.util.Comparator;
 
-public class alarms {
+public class Alarm {
     public int AID;
     public int GID;
     public int IID;
@@ -20,10 +20,10 @@ public class alarms {
     }
 
     // provides the comparator to sort by date
-    public static Comparator<alarms> ByDate = new Comparator<alarms>(){
+    public static Comparator<Alarm> ByDate = new Comparator<Alarm>(){
 
         @Override
-        public int compare(alarms lhs, alarms rhs) {
+        public int compare(Alarm lhs, Alarm rhs) {
             int left = lhs.getMilTime();
             int right = rhs.getMilTime();
 

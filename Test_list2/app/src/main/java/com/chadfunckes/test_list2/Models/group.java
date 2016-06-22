@@ -2,18 +2,18 @@ package com.chadfunckes.test_list2.Models;
 
 import java.util.Comparator;
 
-public class group {
+public class Group {
     public int _id;
     public String name;
 
     // default constructor does not include id and name on purpose
-    public group(){
+    public Group(){
     }
 
     // comparator to allow sorting of the list in ABC order
-    public static Comparator<group> ByName = new Comparator<group>() {
+    public static Comparator<Group> ByName = new Comparator<Group>() {
         @Override
-        public int compare(group lhs, group rhs) {
+        public int compare(Group lhs, Group rhs) {
 
             String left = lhs.name.toUpperCase();
             String right = rhs.name.toUpperCase();

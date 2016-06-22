@@ -70,7 +70,6 @@ public class MapsActivity extends Activity implements
             fence = MainActivity.database.getFence(GID, IID);
             // if fence is null there is no fence....if not null use fence and change button to remove
             if (fence != null){
-
                 input.setText(fence.ADD);
                 Button useRem = (Button) findViewById(R.id.acceptBtn);
                 useRem.setText("Remove Location");
@@ -239,8 +238,8 @@ public class MapsActivity extends Activity implements
 // function to set the geofence into memory
     private void setFence(final Fence fence){
         // bool ad is true if selection was depart, false if selection was arrive
-        // group, item, LAT and LNG exits already in this object
-        // fence ID will consist of group ID followed by Item ID
+        // Group, item, LAT and LNG exits already in this object
+        // fence ID will consist of Group ID followed by Item ID
 
         // create geofence Object
         Geofence.Builder builder = new Geofence.Builder()

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.chadfunckes.test_list2.Models.alarms;
+import com.chadfunckes.test_list2.Models.Alarm;
 import com.chadfunckes.test_list2.R;
 
 import java.util.List;
@@ -16,16 +16,16 @@ import java.util.List;
 public class AlarmListAdapter implements ListAdapter {
     private final String TAG = "ALARM LIST ADAPTER";
     private Context _context;
-    public List<alarms> theList;
+    public List<Alarm> theList;
 
-    public AlarmListAdapter(Context context, List<alarms> theList){
+    public AlarmListAdapter(Context context, List<Alarm> theList){
         this._context = context;
         this.theList = theList;
     }
 
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
-        final alarms thisAlarm = (alarms) getItem(position);
+        final Alarm thisAlarm = (Alarm) getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) _context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

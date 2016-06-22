@@ -17,9 +17,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.chadfunckes.test_list2.Recievers.AlarmReceiver;
+import com.chadfunckes.test_list2.Models.Alarm;
+import com.chadfunckes.test_list2.Receivers.AlarmReceiver;
 import com.chadfunckes.test_list2.View_Adapters.AlarmListAdapter;
-import com.chadfunckes.test_list2.Models.alarms;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class Alarm_Activity extends Activity  {
     static Context mContext;
     private static ListView list; // reference for the listview
     private static ListAdapter adapter; // array adapter for the list
-    private List<alarms> alarmList; // the list of alarms for this item
+    private List<Alarm> alarmList; // the list of Alarm for this item
 
     FragmentManager fm = getFragmentManager();
 
@@ -53,9 +53,9 @@ public class Alarm_Activity extends Activity  {
         GROUP_NAME = getIntent().getStringExtra("GROUP_NAME");
         IID = getIntent().getIntExtra("IID", -1);
         ITEM_NAME = getIntent().getStringExtra("ITEM_NAME");
-        Log.d(TAG, "alarm list called on " + CALLED_ON + " With group ID " + GID + " and item ID " + IID);
+        Log.d(TAG, "alarm list called on " + CALLED_ON + " With Group ID " + GID + " and item ID " + IID);
         if (CALLED_ON.equals("GROUP")) {
-            Log.d(TAG, "fill list on group");
+            Log.d(TAG, "fill list on Group");
             fillList(GID, 0);
         }
         else if (CALLED_ON.equals("ITEM")) {
@@ -68,7 +68,7 @@ public class Alarm_Activity extends Activity  {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final alarms thisAlarm = alarmList.get(position);
+                final Alarm thisAlarm = alarmList.get(position);
                 Log.d(TAG, "item clciked id: " + thisAlarm.AID);
                 AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                 dialog.setTitle("Alarm Delete")
@@ -113,7 +113,7 @@ public class Alarm_Activity extends Activity  {
             Toast toast = Toast.makeText(this, "Enter a valid alarm time", Toast.LENGTH_SHORT);
             toast.show();
             return;
-        };
+        }
         // check if the alarm is in the past
         Calendar now = Calendar.getInstance();
         Calendar timeSet = (Calendar) now.clone();
@@ -162,6 +162,6 @@ public class Alarm_Activity extends Activity  {
     public void fillList(int ID, int from){
         // get alarm list from GID or IID
         alarmList = MainActivity.database.getAlarms(ID, from);
-        Collections.sort(alarmList, alarms.ByDate);
+        Collections.sort(alarmList, Alarm.ByDate);
     }
 }
